@@ -1,0 +1,2 @@
+The module shall provide a library of data ingestion processing functions to be used by the ingestion module (DAS.ING)
+The module shall provide a library of I/O/processing functions to be used by the processing modules (DAS.ING, PEP.LPN, PEP.VMn, DAV.PRC)
