@@ -1,0 +1,2 @@
+DAS.ING is a set of processing modules that provide the expected data ingestion functionalities in compliance with the requirements.
+The module works automatically, as a daemon who checks in regular intervals, if new input data was uploaded or a collection was re-ingested. When this is done it starts the processing and after that is done it loads the collection into mwcs and registers the new collection in DAVE.
