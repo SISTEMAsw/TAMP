@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}{% trans "TAMP - Data Ingestion Page" %}{% endblock %}
+{% block title %}{% trans "TAMP - Data Ingestion Page" %}{% endblock %}
+
+{% block extra_head %}
+{% load static %}
+<link rel="stylesheet" href="{% static "css/data_style.css" %}">
+{% endblock %}
+
+{% block main %}
+	<legend>
+		<h3>Data Ingestion Page</h3>
+	</legend>
+{% if latest_collection%}
+<p> Uploaded the {{ latest_collection.name }} Collection </p>
+{% endif %}
+{% endblock %}

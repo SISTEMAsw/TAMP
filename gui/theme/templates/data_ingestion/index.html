@@ -1,0 +1,611 @@
+
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}{% trans "TAMP - Data Ingestion Page" %}{% endblock %}
+{% block title %}{% trans "TAMP - Data Ingestion Page" %}{% endblock %}
+
+
+{% block extra_head %}
+{% load static %}
+<link rel="stylesheet" href="{% static "css/dataingestion/style.css" %}">
+
+<link rel="stylesheet" type="text/css" href="{% static "tooltipster/dist/css/tooltipster.bundle.css" %}" />
+<script type="text/javascript" src="{% static "tooltipster/dist/js/tooltipster.bundle.min.js" %}"></script>
+<script src="{% static "js/data_ingestion.js" %}"></script>
+
+{% endblock %}
+
+{% block main %}
+
+
+    <div class="dataWapper">
+    	<legend>
+    		<h3>Data Ingestion Page</h3>
+    	</legend>
+        
+        {% if last_collection %}
+            <div class = "dataUploadyay">
+                Uploaded the {{ last_collection }} Collection
+            </div>
+        {% endif %}
+        
+        {% if user.is_authenticated %}
+        <div class="upload">
+            {% if error_message %}
+                <p><strong>{{ error_message }}</strong></p>
+            {% endif %}
+            <form id="data_form" action="{% url 'indexData' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="dataForms">
+                    <div class="dataFormsfancy">
+                        <legend><h4>Upload new data</h4></legend>
+                        <div class="dataFormInput">
+                            {% for field in form.visible_fields %} 
+
+                                {% if field.label == "Select File"%}
+                                    <div class="dataInputForm">
+                                        <div class="dataInputlabel">
+                                            {{ field.label }}*
+                                        </div>  
+
+                                        <div class="dataInputfield">
+                                            {{ field }}
+                                        </div>
+                                        <div class="question">
+                                            <img src="{% static "img/basic/question.png" %}" class="tool" data-tooltip-content="#tip1"/>
+                                        </div>
+                                    </div>
+                                    <div id="name_question" style='display:none'>
+                                        {% elif field.label == "Collection name"%}
+                                            <div class="dataInputForm-name">
+                                                <div class="dataInputlabel">
+                                                    {{ field.label }}*
+                                                </div>  
+
+                                                <div class="dataInputfield">
+                                                    {{ field }}
+                                                </div>
+                                                <div class="question">
+                                                    <img src="{% static "img/basic/question.png" %}" class="tool" data-tooltip-content="#tip2"/>
+                                                </div>
+                                                <div class="help-block" id="data-help">
+                                                    <p>Collection name should be compliant to the <a data-toggle="modal" data-target="#cfconmodal">cfconvention</a> nomenclature</p>           
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div id="source_question" style='display:none'>
+                                        {% elif field.label == "Collection source"%}
+                                            <div class="dataInputForm">
+                                                <div class="dataInputlabel">
+                                                    {{ field.label }}
+                                                </div>  
+
+                                                <div class="dataInputfield">
+                                                    {{ field }}
+                                                </div>
+                                                <div class="question">
+                                                    <img src="{% static "img/basic/question.png" %}" class="tool" data-tooltip-content="#tip3"/>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div id="geo_question" style='display:none'>
+                                        {% elif field.label == "Max. longitude"%}
+                                            <div class="panel-group">
+                                                <div class="panel panel-default">
+                                                    <div class="panelfancy">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a data-toggle="collapse" href="#collapse1">Geographic & Time Coverage</a>
+                                                            </h4>
+                                                        </div>
+                                                    </div>
+
+                                                    <div id="collapse1" class="panel-collapse collapse in">
+                                                        <div class="panel-body">
+                                                             <div class="help-block">
+                                                                <p>Collection Metadata should be compliant to the <a href="http://cfconventions.org/index.html">cfconvention</a> nomenclature</p>           
+                                                            </div>
+                                                            <legend>
+                                                            <div data-step="4" data-intro="The geographic coverage" data-position="left">
+                                                                <h4> Geographic coverage
+                                                                <img src="{% static "img/basic/question.png" %}" class="tool" data-tooltip-content="#tip4"/>
+                                                                </h4>
+                                                            </legend>
+                                                            <div class="dataInputForm2">
+                                                                <div class="dataInputlabel">
+                                                                    {{ field.label }}
+                                                                </div>
+
+                                                                <div class="dataInputfieldGeo">
+                                                                    {{ field }}
+                                                                </div>
+                                                            </div>
+
+                                                            {% elif field.label == "Max. latitude"%}
+                                                                <div class="dataInputForm2">
+                                                                    <div class="dataInputlabel">
+                                                                        {{ field.label }}
+                                                                    </div>
+
+                                                                    <div class="dataInputfieldGeo">
+                                                                        {{ field }}
+                                                                    </div>  
+                                                                </div>
+
+                                                            {% elif field.label == "Min. longitude"%}
+                                                                <div class="dataInputForm2">
+                                                                    <div class="dataInputlabel">
+                                                                        {{ field.label }}
+                                                                    </div>
+
+                                                                    <div class="dataInputfieldGeo">
+                                                                        {{ field }}
+                                                                    </div>
+                                                                </div>
+
+                                                            {% elif field.label == "Min. latitude"%}
+                                                                <div class="dataInputForm2">
+                                                                    <div class="dataInputlabel">
+                                                                        {{ field.label }}
+                                                                    </div> 
+
+                                                                    <div class="dataInputfieldGeo">
+                                                                        {{ field }}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            {% elif field.label == "start date"%}
+                                                            <div data-step="5" data-intro="The time coverage" data-position="left">
+                                                                <legend>
+                                                                    <h4>Time coverage <img src="{% static "img/basic/question.png" %}" class="tool" data-tooltip-content="#tip5"/></h4>                                                                      
+                                                                </legend>
+                                                                        
+                                                                <div class="dataInputForm2">
+                                                                    <div class="dataInputlabel">
+                                                                        {{ field.label }}
+                                                                    </div>
+
+                                                                    <div class="dataInputfield">
+                                                                        {{ field }}
+                                                                    </div>
+                                                                </div>
+                                               
+                                                                {% elif field.label == "end date"%}
+                                                                    <div class="dataInputForm2">
+                                                                        <div class="dataInputlabel">
+                                                                            {{ field.label }}
+                                                                        </div>
+
+                                                                        <div class="dataInputfield">
+                                                                            {{ field }}
+                                                                        </div>
+                                                                    </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                              
+                                    <div id="div_question" style='display:none'>                       
+                                        {% elif field.label == "Application field"%}
+                                            <div class="panel-group">
+                                                <div class="panel panel-default">
+                                                    <div class="panelfancy">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a data-toggle="collapse" href="#collapse2">Dataset information</a>
+                                                            </h4>
+                                                        </div>
+                                                    </div>
+                                                                    
+                                                    <div id="collapse2" class="panel-collapse collapse in">
+                                
+                                                        <div class="dataInputForm">
+                                                            <div class="help-block" id="data-help2">
+                                                                <p>Collection Metadata should be compliant to the <a href="http://cfconventions.org/index.html">cfconvention</a> nomenclature</p>           
+                                                            </div>
+                                                        </div>
+                                                            <div class="dataInputForm">
+                                                            <div class="dataInputlabel">
+                                                                {{ field.label }}
+                                                            </div>
+
+                                                            <div class="dataInputfield">
+                                                                {{ field }}
+                                                            </div>
+
+                                                        </div>
+                                                          
+                                                        {% elif field.label == "Group"%}
+                                                            <div id="dataInputFormGroup" style='display:none'>
+                                                                <div class="dataInputlabelGroup">
+                                                                    {{ field.label }}
+                                                                </div>              
+                                                                <div class="dataInputfieldGroup">
+                                                                    {{ field }}
+                                                                </div>
+                                                            </div>
+                                                            
+                                                        {% elif field.label == "Other information"%}
+                                                            <div class="dataInputForm">
+                                                                <div class="dataInputlabel">
+                                                                    {{ field.label }}
+                                                                </div>              
+                                                            
+                                                                <div class="dataInputfield">
+                                                                    {{ field }}
+                                                                 </div>
+                                                            </div>
+                                                                        
+                                                        {% elif field.label == "Measurement unit"%}
+                                                            <div class="dataInputForm">
+                                                                <div class="dataInputlabel">
+                                                                    {{ field.label }}
+                                                                </div>              
+                                                            
+                                                                <div class="dataInputfield">
+                                                                    {{ field }}
+                                                                </div>
+                                                                    
+                                                            </div>
+                                                                        
+                                                        {% elif field.label == "Min. value"%}
+                                                            <div class="dataInputForm">
+                                                                <div class="dataInputlabel">
+                                                                    {{ field.label }}
+                                                                </div>              
+                                                        
+                                                                <div class="dataInputfield">
+                                                                    {{ field }}
+                                                                </div>
+                                                            </div>
+                                                                    
+                                                        {% elif field.label == "Max. value"%}
+                                                            <div class="dataInputForm">
+                                                                <div class="dataInputlabel">
+                                                                    {{ field.label }}
+                                                                </div>              
+                                                        
+                                                                <div class="dataInputfield">
+                                                                    {{ field }}
+                                                                </div>
+
+                                                            </div>
+
+                                                        {% elif field.label == "Access"%}
+                                                            <div class="dataInputForm">
+                                                                <div class="AccessLabel">
+                                                                    {{ field.label }}
+                                                                </div>              
+                                                                <div class="questionAccess">
+                                                                    <img src="{% static "img/basic/question.png" %}" class="tool" data-tooltip-content="#tip6"/>
+                                                                </div>                                                        
+                                                                <div class="AccessField">
+                                                                    {{ field }}
+                                                                </div>
+                                                            </div>
+
+                                                        {% elif field.label == "IPR statement"%}
+                                                            <div class="dataInputFormIPR">
+                                                                <div class="dataInputlabel">
+                                                                    Intellectual Property Rights
+                                                                </div>              
+                                                        
+                                                                <div class="dataInputfieldIPR">
+                                                                    {{ field }}
+                                                                </div>
+                                                                <div class="questionIPR">
+                                                                    <img src="{% static "img/basic/question.png" %}" class="tool" data-tooltip-content="#tip7"/>
+                                                                </div>
+                                                            </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+
+                                    <div id="use_question" style='display:none'>
+                                        {% elif field.label == "Use case"%}
+                                           <div class="panel-group">
+                                                <div class="panel panel-default">
+                                                    <div class="panelfancy">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a data-toggle="collapse" href="#collapse3">Use case*</a>
+                                                                 <img src="{% static "img/basic/question.png" %}" class="tool" data-tooltip-content="#tip8"/>
+                                                            </h4>
+                                                        </div>
+                                                    </div>
+
+                                                    <div id="collapse3" class="panel-collapse collapse in">
+                                                        <div class="dataInputForm">
+                                                           
+                                                                {{ field }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="databutton">     
+                    <button type="button" class="btn btn-primary" id="skip_1" disabled>
+                        <span class="glyphicon glyphicon-forward" aria-hidden="true"></span> Next                        
+                    </button>                   
+                    <button type="button" class="btn btn-primary" id="skip_3" style='display:none'> 
+                        <span class="glyphicon glyphicon-forward" aria-hidden="true"></span> Next                       
+                    </button>
+                    <button type="button" class="btn btn-primary"" id="skip_4" style='display:none'> 
+                        <span class="glyphicon glyphicon-forward" aria-hidden="true"></span> Next
+                    </button>
+                    <button type="button" class="btn btn-primary" id="skip_5" style='display:none'> 
+                        <span class="glyphicon glyphicon-forward" aria-hidden="true"></span> Next                      
+                    </button>      
+                    <button class="btn btn-primary" type="submit" name="submit" id="updateBtn" >
+                        <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload  
+                    </button>
+                    </br><small>(*) mandatory fields</small></font>
+                                                                          
+                    </div>
+                </div>   
+            </form>
+        </div>
+
+<div class="tooltip_templates">
+    <span id="tip1">
+        Choose the file which you want to upload.<br>
+        As soon as you have selected the file a new field will appear.
+    </span>
+    <span id="tip2">
+        Choose a name which is compliant to the cfconvention.<br>
+        Click on the link below and you will get some information about the convention. <br>
+        If you have filled in the field, a new one will appear.<br>
+    </span>
+    <span id="tip3">
+        Where did you get the data from? 
+        <br>This field is not mandatory and can be left empty, to jump to the next field just click on 'next'. 
+        <br>Otherwise the next field will appear as soon as you filled in.
+    </span>
+    <span id="tip4">
+        This fields are not mandatory.
+    </span>
+    <span id="tip5">
+        This fields are not mandatory.<br>
+        Click on 'next' to go to the following fields.
+    </span>
+    <span id="tip6">
+        "Open": every user can use this dataset. <br>
+        "Restricted": only you can see this dataset.<br>
+        If you choose a group, users who belong to this group can use this dataset too.
+    </span>
+    <span id="tip7">
+        Default is 'Restricted' - Only you can use the Dataset. <br>
+        If you want to share it with users from your group, maybe 'Creative Commons' is something for you
+    </span>
+    <span id="tip8">
+        Please select one or more use cases. <br>
+        Then the 'upload' button will be activated and you can upload the dataset. <br>
+        How long the upload will be processing, depens on the size of the dataset.
+    </span>
+
+</div>
+
+
+        {% endif %}
+<div class ="wrap_me">
+        <div class = "sidewindow">      
+            <div class = "heading"> 
+                Available collections
+            </div>
+
+            <div class="inner">
+                <ul>
+                    {% if not list_access and not my_upload and not list_group and not use_case%}
+                    <li>
+                        <p>No collections available</p>
+                    </li>
+                    {% endif %}
+                    {% if my_upload %}      
+                        {% for collection in my_upload %}
+                            <li>
+                                {% if collection.coverageID == "ERROR" %}
+                                    <div class="icons">
+                                        <img src="{% static "img/news/trash.png" %}" class="delImg" alt="Delete entry" border="0" data-toggle="modal" data-target="#deleteModal{{ collection.id }}">
+                                            <a href="{% url 'editData' collection.id %}">
+                                        <img src="{% static "img/news/edit.png" %}" alt="Edit dataset" border="0"></a>
+                                    </div>
+                                    <div class="iconsText">   
+                                         <a href="{% url 'detail' collection.id %}">{{ collection.name }} </a><img src="{% static "img/news/alert.png" %}">
+                                    </div>
+                                {% elif collection.status == "uploading" or collection.status == "processing" or collection.status == "processed" or collection.status == "reprocess" or collection.status == "mwcs_processed" %}
+                                    <div class="icons">
+                                            <img src="{% static "img/news/trash.png" %}" class="delImg" alt="Delete entry" border="0" data-toggle="modal" data-target="#deleteModal{{ collection.id }}">
+                                                <a href="{% url 'editData' collection.id %}">
+                                            <img src="{% static "img/news/edit.png" %}" alt="Edit dataset" border="0"></a>
+                                        </div>
+                                        <div class="iconsText">   
+                                            <a href="{% url 'detail' collection.id %}">{{ collection.name }} </a><img src="{% static "img/news/proc2.gif" %}">
+                                    </div>
+                                {% elif collection.status == "Available" or collection.status == "" or not collection.status %}
+                                    <div class="icons">
+                                        <img src="{% static "img/news/trash.png" %}" class="delImg" alt="Delete entry" border="0" data-toggle="modal" data-target="#deleteModal{{ collection.id }}">
+                                            <a href="{% url 'editData' collection.id %}">
+                                        <img src="{% static "img/news/edit.png" %}" alt="Edit dataset" border="0"></a>
+                                    </div>
+                                    <div class="iconsText">   
+                                        <a href="{% url 'detail' collection.id %}">{{ collection.name }}</a>
+                                    </div>
+
+                                {% else %}
+                                    <div class="icons">
+                                        <img src="{% static "img/news/trash.png" %}" class="delImg" alt="Delete entry" border="0" data-toggle="modal" data-target="#deleteModal{{ collection.id }}">
+                                            <a href="{% url 'editData' collection.id %}">
+                                        <img src="{% static "img/news/edit.png" %}" alt="Edit dataset" border="0"></a>
+                                    </div>
+                                    <div class="iconsText">   
+                                         <a href="{% url 'detail' collection.id %}">{{ collection.name }} </a><img src="{% static "img/news/alert.png" %}">
+                                    </div>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if list_group %}
+                            {% for collection in list_group %}
+                                <li>
+                                    <div class="icons">
+                                        <img src="{% static "img/news/space.png" %}" border="0"/>
+                                        <img src="{% static "img/news/group.png" %}" alt="collections from group"  border="0"/>
+                                    </div>
+                                    <div class="iconsText">   
+                                         <a href="{% url 'detail' collection.id %}">{{ collection.name }}</a>
+                                    </div>                                    
+                                </li>
+                            {% endfor %}
+                    {% endif %}
+                    
+                    {% if use_case %}
+                            {% for collection in use_case %}
+                                <li>
+                                    <div class="icons">
+                                        <img src="{% static "img/news/space.png" %}" border="0"/>
+                                        <img src="{% static "img/news/use_case.png" %}" alt="collection from use case" border="0"/>
+                                    </div>
+                                    <div class="iconsText">   
+                                        <a href="{% url 'detail' collection.id %}">{{ collection.name }}</a>
+                                    </div>
+                                   
+                                </li>
+                            {% endfor %}
+                    {% endif %}
+
+                    {% if list_access %}
+                            {% for collection in list_access %}
+                                <li>
+                                    <div class="icons">
+                                        <img src="{% static "img/news/space.png" %}" border="0"/>
+                                        <img src="{% static "img/news/open.png" %}" alt="collections from Open Access"  border="0"/>
+                                    </div>
+                                    <div class="iconsText">   
+                                        <a href="{% url 'detail' collection.id %}">{{ collection.name }}</a>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                    {% endif %}
+
+                </ul>
+            </div>   
+        </div>   
+
+            <div class= "legend">
+                <img id="down" src="{% static "img/news/space.png" %}"> <br>
+                <img src="{% static "img/news/trash.png" %}"> Delete collection<br>
+                <img src="{% static "img/news/edit.png" %}"> Edit collection<br>
+                <img src="{% static "img/news/group.png" %}"> collection belongs to your group<br>
+                <img src="{% static "img/news/open.png" %}"> collection with open access<br>
+                <img src="{% static "img/news/use_case.png" %}"> collection belongs to your use case<br>
+                <img src="{% static "img/news/loading.png" %}"> collection is currently being processed<br>
+                <img src="{% static "img/news/alert.png" %}"> an error occurred<br>
+
+            </div>
+
+    </div>
+    </div>
+    {% if my_upload %}      
+        {% for collection in my_upload %}
+            <div id="deleteModal{{ collection.id }}" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Are you sure?</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <p>Are you sure you want to delete the <strong>{{ collection.name }}</strong> collection table? </p>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <a href="{% url 'deleteData' collection.id %}" class="btn btn-danger" id="delButton">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}               
+<!--
+
+    <div id="uploadModal" style="display:none; cursor: default">
+          <p> Uploading data, this may take some time...</p>
+          <img src="{% static "img/basic/loading.gif" %}"alt="Waiting to upload">   
+    </div>               -->
+
+    <div id="cfconmodal" class="modal lg fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Guidelines for Construction of CF Standard Names</h4>
+                </div>
+
+                <div class="modal-body">
+                    <p>Version 1, 3 December 2008</p>
+                        <a href="http://cfconventions.org/Data/cf-standard-names/docs/guidelines.html" target="_blank">cfconvention guideline (original)</a> 
+                    <hr>
+                    <h4>Characters</h4>
+                    <p> Standard names consist of lower-letters, digits and underscores, and begin with a letter. Upper case is not used.</p>
+                    <br>
+                    <h4>Spelling</h4>
+                    <p>US spelling is used e.g. vapor, sulfur.</p>
+                    <br>
+                    <h4>Qualifications</h4>
+                    <p>Standard names may be qualified by the addition of phrases in certain standard forms and order. These qualifications do not change the units of the quantity. All of the following phrases in [ ] are optional. The words in typewriter type appear explicitly as stated, while the words in italic indicate other words or phrases to be substituted. The new standard name is constructed by joining the base standard name to the qualifiers using underscores.         
+                    <br>
+                    <br>[surface] [component] standard_name [<span>at</span> surface] [<span>in</span> medium] [<span>due to</span> process] [<span>assuming</span> condition]
+                    </p>
+                    <br>
+                    <h4>Surface</h4>
+                    <p>A surface is defined as a function of horizontal position. Surfaces which are defined using a coordinate value (e.g. height of 1.5 m) are indicated by a single-valued coordinate variable, not by the standard name. In the standard name, some surfaces are named by single words which are placed at the start: <span>toa</span> (top of atmosphere), <span>tropopause, surface</span>. Other surfaces are named by multi-word phrases put after <span>at: at_adiabatic_condensation_level, at_cloud_top, at_convective_cloud_top, at_cloud_base, at_convective_cloud_base, at_freezing_level, at_ground_level, at_maximum_wind_speed_level, at_sea_floor, at_sea_ice_base, at_sea_level, at_top_of_atmosphere_boundary_layer, at_top_of_atmosphere_model, at_top_of_dry_convection.</span> The surface called "<span>surface</span>" means the lower boundary of the atmosphere. <span>sea_level</span> means mean sea level, which is close to the geoid in sea areas. <span>ground_level</span> means the land surface (beneath the snow and surface water, if any). <span>cloud_base</span> refers to the base of the lowest cloud. <span>cloud_top</span> refers to the top of the highest cloud. Fluxes at the <span> top_of_atmosphere_model</span> differ from TOA fluxes only if the model TOA fluxes make some allowance for the atmosphere above the top of the model; if not, it is usual to give standard names with toa to the fluxes at the top of the model atmosphere.
+                    </p>
+                    <br>
+                    <h4>Component</h4>
+                    <p>
+                    The direction of the spatial component of a vector is indicated by one of the words <span>upward, downward, northward, southward, eastward, westward, x, y</span>. The last two indicate directions along the horizontal grid being used when they are not true longitude and latitude (if there is a rotated pole, for instance). If the standard name indicates a tensor quantity, two of these direction words may be included, applying to two of the spatial dimensions Z Y X, in that order. If only one component is indicated for a tensor, it means the flux in the indicated direction of the magnitude of the vector quantity in the plane of the other two spatial dimensions.
+                    <br>
+                    The names of vertical components of radiative fluxes are prefixed with <span>net_</span>, thus: <span>net_downward</span> and <span>net_upward</span>. This treatment is not applied for any kinds of flux other than radiative. Radiative fluxes from above and below are often measured and calculated separately, the "net" being the difference. Within the atmosphere, radiation from below (not net) is indicated by a prefix of <span>upwelling</span>, and from above with <span>downwelling</span>. For the top of the atmosphere, the prefixes <span>incoming</span> and <span>outgoing</span> are used instead.
+                    </p>
+                    <br>
+                    <h4>Medium</h4>
+                    <p>
+                    A medium indicates the local medium or layer within which an intensive quantity applies: <span>in_air, in_atmosphere_boundary_layer, in_mesosphere, in_sea_ice, in_sea_water, in_soil, in_soil_water, in_stratosphere, in_thermosphere, in_troposphere.</span>
+                    </p>
+                    <br>
+                    <h4>Process</h4>
+                    <p>
+                    The specification of a physical process by the phrase <span>due_to_</span><i>process</i> means that the quantity named is a single term in a sum of terms which together compose the general quantity named by omitting the phrase. Possibilites are: <span>due_to_advection, due_to_convection, due_to_deep_convection, due_to_diabatic_processes, due_to_diffusion, due_to_dry_convection, due_to_gravity_wave_drag, due_to_gyre, due_to_isostatic_adjustment, due_to_large_scale_precipitation, due_to_longwave_heating, due_to_moist_convection, due_to_overturning, due_to_shallow_convection, due_to_shortwave_heating, due_to_thermodynamics</span> (referring to sea ice freezing and melting).
+                    </p>
+                    <br>
+                    <h4>Condition</h4>
+                    <p>
+                    A phrase <span>assuming_</span><i>condition</i> indicates that the named quantity is the value which would obtain if all aspects of the system were unaltered except for the assumption of the circumstances specified by the condition. Possibilities are <span>assuming_clear_sky, assuming_deep_snow, assuming_no_snow</span>.
+                    </p>
+                    <br>
+                    <b> For further information, please take a look at the <a href="http://cfconventions.org/Data/cf-standard-names/docs/guidelines.html" target="_blank">original guideline</a> and the <a href="http://cfconventions.org/" target="_blank">CF Conventions and Metadata</a> Website.</b>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                 </div>           
+            </div> 
+        </div>    
+    </div>
+  
+{% endblock %}

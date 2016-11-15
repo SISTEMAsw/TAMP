@@ -1,0 +1,109 @@
+.blogWrapper{
+	margin-top:5px;
+}
+
+.entrydiv{
+	margin-top: 5px;
+	width: 860px;
+	float: none;
+}
+
+.entrylabel{
+	vertical-align: middle;
+	float: left;
+	height: 100%;
+	width: 135px;
+}
+
+.entryfields{
+	width: 705px;
+	margin-left: 135px;
+}
+
+#id_allow_comments{
+	margin-left: 15px;
+}
+#id_related_posts{
+	margin-left: 21px;
+}
+
+
+.entryError ul{
+	list-style: none;
+	color: red;
+	margin-left: 94px;
+}
+
+.databutton{
+	float:right;
+	margin-right: 15px;
+}
+.entryfields select{
+	width: 450px;
+	height: 80px;
+	margin-left: 0px;
+}
+
+.entryfields input{
+	width: 450px;
+}
+
+#entryCommi input{
+	width: 30px;
+}
+
+.help-block{
+	width: 340px;
+}
+
+#help1{
+	margin-left: 156px;
+}
+
+#entryCat select{
+	margin-left: 20px;
+}
+
+.sidewrapper{
+	width: 309px;
+	float: right;
+	margin-top: -20px;
+}
+
+.blogSubmit{
+	width: 880px;
+	float: left;
+	border: 1px solid #118888;
+	border-radius: 15px;
+	-webkit-box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	-moz-box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	padding: 15px 0px 15px 15px;
+}
+
+
+.dataUploadyay{
+	width: 880px;
+	background-color: #AADDDD;
+	text-align: center;
+	margin-bottom: 20px;
+	float: left;
+	border: 1px solid #118888;
+	border-radius: 15px;
+	-webkit-box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	-moz-box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+}
+
+.databutton a{
+	color: white !important;
+}
+.databutton a:hover{
+	color: white !important;
+}
+.databutton a:visited{
+	color: white !important;
+}
+.databutton a:active{
+	color: white !important;
+}

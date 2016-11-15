@@ -1,0 +1,1 @@
+(function(){"use strict";var a=this;a.define(["backbone","communicator","globals","underscore"],function(a,b,c){var d=a.Marionette.ItemView.extend({templateHelpers:function(){return{version:c.version}},initialize:function(a){}});return{ContentView:d}})}).call(this);

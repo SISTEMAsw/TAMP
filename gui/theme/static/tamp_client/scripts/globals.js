@@ -1,0 +1,1 @@
+define(["backbone","objectStore"],function(a,b){var c=a.Model.extend({data:[]});return{version:"1.0.0-rc.0",objects:new b,selections:new b,baseLayers:new a.Collection,products:new a.Collection,overlays:new a.Collection,swarm:new c}});

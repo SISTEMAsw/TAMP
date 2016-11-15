@@ -1,0 +1,24 @@
+{% extends "wiki/base_site.html" %}
+{% load static %}
+
+{% block wiki_site_title %} - Wiki{% endblock %}
+
+
+{% block wiki_header_branding %}
+
+{% block extra_head %}
+{% if not user.is_superuser %}
+<link rel="stylesheet" type="text/css" href="{% static "css/wiki.css" %}">
+{% else %}
+<link rel="stylesheet" type="text/css" href="{% static "css/wiki_admin.css" %}">
+{% endif %}
+{% endblock %}
+
+<a class="navbar-brand" href="/"><img id="tamplogo" src="{% static "img/basic/logo_small.png" %}" alt="TAMP Logo" ></a>
+{% endblock %}
+
+{% block wiki_header_navlinks %}
+<ul class="nav navbar-nav">
+  <li class="active"><a href="{% url 'wiki:root' %}">Wiki</a></li>
+</ul>
+{% endblock %}

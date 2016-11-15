@@ -1,0 +1,37 @@
+{% extends "accounts/account_form.html" %}
+{% load i18n %}
+
+{% block extra_head %}
+{% load static %}
+<link rel="stylesheet" href="{% static "css/base/logout.css" %}">
+{% endblock %}
+
+{% block main %}
+<div class="loginWrapper">
+	<div class="fancyLogin">
+	{% if request.user.is_authenticated %}
+	<p>
+		{% trans "You're already logged in. If you'd like to log in as a different user, you'll need to log out first." %}
+	</p>
+	{% else %}
+	<div id="login">
+		{{ block.super }}
+		{% url "signup" as signup_url %}
+	</div>
+	</div>
+	<div class="loginText">
+		<p>
+			{% blocktrans with request.GET.next as next %}If you don't have an account you can <a href="{{ signup_url }}?next={{ next }}">sign up</a> for one now.{% endblocktrans %}
+		</p>
+		{% url "mezzanine_password_reset" as password_reset_url %}
+		{% url "profile_update" as profile_update_url %}
+		{% blocktrans %}
+		<p>
+			You can also <a href="{{ password_reset_url }}?next={{ profile_update_url }}">reset your password</a> if you've forgotten it.
+		</p>
+		{% endblocktrans %}</p>
+	</div>
+	{% endif %}
+
+</div>
+{% endblock %}

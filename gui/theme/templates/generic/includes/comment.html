@@ -1,0 +1,87 @@
+{% load i18n mezzanine_tags comment_tags rating_tags %}
+{% block extra_head %}
+{% load static %}
+<link rel="stylesheet" href="{% static "css/comments.css" %}">
+{% endblock %}
+
+{% for comment in comments_for_thread %}
+
+<div id="comment-{{ comment.id }}" class="comment media{% if comment.by_author %} comment-author{% endif %}">
+    <div class="fancyComments">
+        {% editable comment.is_public comment.is_removed %}
+        {% if not comment.is_removed and comment.is_public or request.user.is_staff %}
+            
+        <div class="avatarFancy">
+            <div class="avatar">
+                {% if user.userprofile.user_pic %}
+                <img class="img-thumbnail" src="{{MEDIA_URL}}{{user.userprofile.user_pic}}" alt="avatar"/>
+                {% else %}
+                <img class="img-thumbnail" src="{% static "img/basic/blank.png" %}" alt="avatar"/>
+                {% endif %}
+            </div>
+        </div>
+    </div> 
+    <div class="media-body">
+    <div class="fancydown">
+        <h4 class="media-heading">{{ comment.user_name }}<br>
+            <small class="timespan">
+                {% blocktrans with sometime=comment.submit_date|timesince %}{{ sometime }} ago{% endblocktrans %}
+            </small>
+        </h4>
+        <p>{{ comment.comment|comment_filter }}</p>
+        {% endif %}
+            
+        {% if not comment.is_removed and comment.is_public %}
+        <a href="#reply-{{ comment.id }}" class="reply">
+            <span class="glyphicon glyphicon-share-alt"></span> {% trans "Reply" %}
+        </a>
+            
+
+        <form class="comment-reply-form" method="post" id="reply-{{ comment.id }}" action="{{ comment_url }}#reply-{{ comment.id }}" {% if replied_to != comment.id %}style="display:none;"{% endif %}>
+            <div class="avatarFancy">
+                <div class="avatar">
+                    {% if user.userprofile.user_pic %}
+                    <img class="img-thumbnail" src="{{MEDIA_URL}}{{user.userprofile.user_pic}}" alt="avatar"/>
+                    {% else %}
+                    <img class="img-thumbnail" src="{% static "img/basic/blank.png" %}" alt="avatar"/>
+                    {% endif %}
+                </div>      
+            </div>
+            <div class="bubble-reply"> 
+                {% if replied_to == comment.id %}
+                {% fields_for posted_comment_form %}
+                {% else %}
+                {% fields_for unposted_comment_form %}
+                {% endif %}
+            </div>
+            <div class="btnfancy-reply">
+                <input type="hidden" name="replied_to" value="{{ comment.id }}">
+                <input class="btn btn-primary btn-sm" type="submit" value="{% trans "Reply" %}">
+            </div>
+                
+        </form>
+    </div>
+
+        {% else %}
+        <p>
+            {% if comment.is_removed %}
+            <span class="glyphicon glyphicon-remove-circle"></span> {% trans "Comment deleted" %}
+            {% else %}
+            <span class="glyphicon glyphicon-warning-sign"></span> {% trans "Comment awaiting approval" %}
+            {% endif %}
+            <small class="timespan">{% blocktrans with sometime=comment.submit_date|timesince %}{{ sometime }} ago{% endblocktrans %}</small>
+        </p>
+        {% endif %}
+
+        {% comment_thread comment %}
+
+        
+        {% if not comment.is_removed and comment.is_public or request.user.is_staff %}</div>{% endif %}
+        {% endeditable %}
+</div>
+{% endfor %}
+
+{% if no_comments %}
+<p>{% trans "There are currently no comments" %}</p>
+{% endif %}
+

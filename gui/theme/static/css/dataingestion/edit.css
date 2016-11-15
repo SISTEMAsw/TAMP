@@ -1,0 +1,165 @@
+.dataForms{
+	text-align: center;
+	width: 910px;
+	margin: 0 auto;
+}
+.dataFormsfancy
+{
+    width: 910px;
+	margin: 0 auto;
+	padding-bottom: 15px;
+	padding-left: 15px;
+	border: 1px solid #118888;
+	border-radius: 5px;
+	-webkit-box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	-moz-box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	margin-bottom: 10px;
+	text-align: left;
+}
+
+.dataEditbutton{
+	color: white;
+	font-style: none;
+}
+
+.dataEditbutton a{
+	color: white;
+	font-style: none;
+}
+.dataEditbutton hover{
+	color: white;
+	font-style: none;
+}
+
+.dataEditbutton visited{
+	color: white;
+	font-style: none;
+}
+
+.dataInputError-name{
+	width: 200px;
+	height: 32px;
+	overflow: hidden;
+}
+
+.dataInputForm-name input{
+	float: left;
+}
+
+#data-help{
+	margin-left: 140px;
+}
+
+
+.upload li{
+	list-style-type: none;
+	color: red;
+} 
+
+.dataInputForm, .dataInputForm2, .dataInputOther, .dataInputForm-name, #dataInputFormGroup{
+	margin-bottom: 3px;
+	width: 760px;
+}
+
+.dataInputForm2, .dataInputOther{
+
+	height: 35px;
+	margin-left: 10px;
+}
+
+.dataInputForm, .dataInputForm-name, #dataInputFormGroup{
+	margin-left:10px;
+}
+
+.dataInputOther{
+	margin-top: 90px;
+}
+
+.dataInputlabel{
+	width: 140px;
+	float: left;
+
+}
+
+.dataInputForm input, .dataInputForm2 input, .dataInputOther input{
+	float:left;
+}
+
+.dataInputForm select, dataInputForm-name select, #dataInputFormGroup select{
+	float: left;
+	color: #455680;
+}
+
+.dataInputfieldGeo input{
+	width: 110px;
+}
+.dataInputError{
+	width: 200px;
+	height: 32px;
+	overflow: hidden;
+	color: red;
+}
+
+#id_access li{
+	color: #455680;
+	list-style-type: none;
+	font-weight: 300;
+	margin-left:140px;
+}
+
+#id_name{
+	width: 420px;
+}
+
+
+#id_use_cases li{
+	color: #455680;
+	list-style-type: none;
+	
+}
+
+#id_use_cases li input, #id_access li input{
+	margin-right: 5px;	
+}
+
+
+.dataBtnDetail{
+	width: 335px;
+	margin: 0 auto; 
+}
+
+#updateBtn a{
+	color: white;
+	font-style: none;
+}
+
+#updateBtn hover{
+	color: white;
+	font-style: none;
+}
+
+.panel-group{
+	margin-top: 5px;
+	width: 880px;
+	border: 1px solid #CCCCCC;
+	border-radius: 5px;
+}
+
+.panelfancy{
+	background-color: #EEEEEE;
+	background: -webkit-linear-gradient(#EEEEEE, #DDDDDD); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#EEEEEE, #DDDDDD); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#EEEEEE, #DDDDDD); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#EEEEEE, #DDDDDD); /* Standard syntax */
+}
+	
+
+#collapse1, #collapse2, #collapse3{
+	padding-top: 5px;
+	background-color: #EEEEEE;
+}
+
+.panel-group{
+	background-color: #EEEEEE;
+}

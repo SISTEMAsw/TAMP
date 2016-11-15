@@ -1,0 +1,78 @@
+
+.side{
+	float: right;
+	margin-top: 40px;
+}
+
+.recentPost p{
+	font-size: small;
+	color: #455680;
+}
+
+legend {
+	width: 850px;
+}
+
+.recentPostsWrapper{
+	width: 750px;
+}
+.recentPost h3 img {
+	padding-right: 5px;
+	margin-top: -2px;
+}
+
+.newEntry{
+	width: 300px;
+}
+.newEntry img{
+	width: 20px;
+	height: 20px;
+}
+
+.pagination
+{
+	border: 1px solid #118888;
+	position: absolute;
+	bottom: -48px; 
+	float: left;
+	margin-bottom: 10px;
+	background-color: #EEEEEE;
+	color: #118888;
+	
+}
+
+
+.recentPost {
+	border: 1px solid #118888;
+	border-radius: 15px;
+	-webkit-box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	-moz-box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	margin-bottom: 20px;
+	padding: 0px 10px 5px 10px;
+	float: left;
+	width: 850px;
+}
+
+.editable-link {
+	height: 1px;
+	float: right;
+}
+
+.postMeta {
+	float: left;
+	margin-top:-5px;
+	margin-left: 32px;
+}
+
+.newsContent {
+	float: left;
+	width: 790px;
+	margin-left: 32px;
+}
+
+.blogDetails {
+	float: left;
+	margin-left: 32px;
+}
+

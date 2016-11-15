@@ -1,0 +1,1 @@
+(function(){"use strict";var a=this;a.define(["backbone","communicator"],function(a,b){var c=a.Model.extend({name:"",icon:"",content:"",eventToRaise:"",url:""});return{NavBarItemModel:c}})}).call(this);

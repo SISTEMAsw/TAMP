@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% load i18n mezzanine_tags accounts_tags %}
+
+{% block meta_title %}{{ profile_user|username_or:"get_full_name" }}{% endblock %}
+{% block title %}{{ profile_user|username_or:"get_full_name" }}{% endblock %}
+{% block body_id %}account{% endblock %}
+
+{% block extra_head %}
+{% load static %}
+<link rel="stylesheet" href="{% static "css/profile/profile.css" %}">
+{% endblock %}
+
+{% block breadcrumb_menu %}
+{{ block.super }}
+<li>
+	{{ profile_user|username_or:"get_full_name" }}
+</li>
+{% endblock %}
+
+{% block main %}
+<div class="profileWrapper">
+	{% if profile_user == request.user %}	
+	<div class="fancyProfile">
+
+		
+		<div class="avatarFancy">
+				<div class="avatar">
+				{% if user.userprofile.user_pic %}
+				<img class="img-thumbnail" src="{{MEDIA_URL}}{{user.userprofile.user_pic}}" alt="avatar"/>
+				{% else %}
+				<img class="img-thumbnail" src="{% static "img/basic/blank.png" %}" alt="avatar"/>
+				{% endif %}
+			</div>
+		</div>
+
+		<div class="profileInfo">
+				<legend><h2>{{ profile_user}}</h2></legend>
+				<div class="profile">
+					<div class="profileTitel"><b>Name</b></div>
+				
+					<div class="profileDetails">
+						{% if user.first_name and user.last_name %}
+							<p>{{ user.first_name }} {{ user.last_name }}</p>
+						{% else %}
+							<p> None </p>
+						{% endif %}
+					</div>
+				
+				</div>
+				
+				<div class="profile">
+					<div class="profileTitel"><b>eMail</b></div>
+				
+					<div class="profileDetails">
+					{% if user.email %}
+						<p>{{ user.email }} </p>
+					{% else %}
+						<p> None </p>
+					{% endif %}
+					</div>
+				</div>
+				
+				<div class="profile">
+					<div class="profileTitel"><b>Affiliation</b></div>
+					<div class="profileDetails">
+					<p>
+						{% if user.userprofile.affiliation %}
+						{{user.userprofile.affiliation}}</p>
+						{% else %}
+						None </p>
+						{% endif %}
+					</div>
+				</div>
+					<div class="profile">
+					<div class="profileTitel"><b>Use case</b></div>
+					<div class="profileDetails_usecase">
+					{% if user.userprofile.use_case == "1" %}
+					<p>Use Case 1: Comparison between stratospheric ozone model output and satellite observations</p>
+
+					{% elif user.userprofile.use_case == "2" %}
+					<p>Use Case 2: Model validation tool </p>
+
+					{% elif user.userprofile.use_case == "3" %}
+					<p>Use Case 3: Characterization of optical and microphysical properties of aerosol</p>
+
+					{% elif user.userprofile.use_case == "4" %}
+					<p>Use Case 4: ECARE lidar/ CALIPSO Simulation</p>
+
+					{% elif user.userprofile.use_case == "5" %}
+					<p>Use Case 5: Development of Scientific L2 products based on OMI instruments</p>
+
+					{% elif user.userprofile.use_case == "6" %}
+					<p>Use Case 6: Model Quality Assessment</p>
+
+					{% elif user.userprofile.use_case == "7" %}
+					<p>Use Case 7: Re-grid and time average satellite data</p>
+
+					{% elif user.userprofile.use_case == "8" %}
+					<p>Use Case 8: Model Validation against satellite data (Aerosol NO2, trace gases</p>
+					{% else %}
+  					<p> no use case selected </p>
+					{% endif %}
+				</div>
+					</div>
+					<div class="profile">
+					<div class="profileTitel"><b>Application field(s)</b></div>
+					<div class="profileDetailsColl">
+					{% if user.userprofile.application_field.all %}
+						{% for app in user.userprofile.application_field.all %}
+						<p>{{ app }}</p>
+						{% endfor %}
+					{% else %}
+						<p>no application selected</p>
+					{% endif %}	
+					</div>
+				</div>
+					<div class="profile">				
+					<div class="profileTitel"><b>Group</b></div>
+					<div class="profileDetails">
+
+					{% if user.userprofile.group == "G1" %}
+					<p> Group 1 </p>
+					{% elif user.userprofile.group == "G2" %}
+					<p> Group 2  </p>
+
+					{% elif user.userprofile.group == "G3" %}
+					<p> Group 3  </p>
+					{% else %}
+					<p> no group selected </p>
+					{% endif %}
+				</div>
+					</div>
+					<div class="profile">
+					<div class="profileTitel"><b>Uploaded collection</b></div>
+					<div class="profileDetails">
+						{% load data_ingestion_tags %}
+						{% data_recent_upload 1 user.username as data_list %}
+						{% if data_list %}
+    						{% for collection in data_list %}
+            					<p><a href="{% url 'detail' collection.id %}">{{ collection.name }}</a></p>
+    						{% endfor %}
+						{% else %}
+   			 				<p>No collections are available.</p>
+						{% endif %}
+					</div>
+				</div>
+		</div>
+		
+		{% endif %}
+	
+</div>
+<div id="updateBtn">
+	<a class="btn btn-primary" href="{% url 'profile_update' %}">Update profile</a>
+</div>
+</div>
+
+{% endblock %}

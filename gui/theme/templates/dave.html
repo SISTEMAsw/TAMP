@@ -1,0 +1,186 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> 
+<html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        {% load staticfiles %}
+         <link rel="stylesheet" href="{% static 'tamp_client/styles/main.css' %}">
+
+        {% if user.is_authenticated %}
+        {% load data_ingestion_tags %}
+         {% collections user.username as collections_list %}
+
+            <!-- Possible path configurations if dependency files are on different paths -->
+            <script type="text/javascript">
+
+                var CONFIG_URL = "{% static 'tamp_client/scripts/config.json' %}";
+                CESIUM_BASE_URL = "{% static 'tamp_client/bower_components/cesium/Build/Cesium/' %}";
+                var require = {
+                    baseUrl : "{% static 'tamp_client/scripts/' %}"
+                };
+
+                var PRODUCT_URL = "http://vtdas-dave.zamg.ac.at/davprc/ows";
+                var USER_PRODUCTS = [
+                    {% for collection in collections_list %}
+                        {
+                            "name": "{{ collection.name }}",
+                            "id": "{{ collection.coverageID }}",
+                            "date":
+                            [ 
+                                "{{ collection.start_date }}",
+                                "{{ collection.end_date }}"
+                            ],
+                            "parameters":
+                            {
+                                "Parameter1": 
+                                {
+                                        "range": 
+                                        [
+                                            {{ collection.min_value }},
+                                            {{ collection.max_value }}
+                                        ],
+                                        "uom":"{{ collection.measurement_unit }}",
+                                        
+                                }
+                            }
+                        },
+                    {% endfor %}
+              ];
+                
+                
+               /* var USER_PRODUCTS = [
+                {
+                    "name": "BASCOE",
+                    "id": "BASCOE",
+                    "parameters": {
+                        "Parameter1": {
+                            "range": [0.000001, 0.00001], // Optional: default [0,1]
+                            "uom":"Unknown", // Optional: default "Unknown"
+                            "colorscale": "viridis", // Optional: default "viridis"
+                            "name": "First parameter/band" // Optional default "Parameter1"
+                        }
+                    }
+                }
+            ];*/
+
+            </script>
+        
+
+    </head>
+    <body>
+       
+                
+            </div>
+
+            <div id="content">
+                <div id="main"></div>
+                <div id="viewContent"></div>
+                <div id="leftSideBar"></div>
+                <div id="rightSideBar"></div>
+                <div id="optionsBar"></div>
+                <div id="topBar"></div>
+                <div id="bottomBar"></div>
+            </div>
+
+            <div id="storyView" style="z-index: 0"></div>
+
+            <div id="loadscreen" class="modal-backdrop">
+                <div id="loading-spacer">
+                    <div class="project-title">TAMP</div>
+                </div>
+                <div class="sk-folding-cube">
+                  <div class="sk-cube1 sk-cube"></div>
+                  <div class="sk-cube2 sk-cube"></div>
+                  <div class="sk-cube4 sk-cube"></div>
+                  <div class="sk-cube3 sk-cube"></div>
+                </div>
+            </div>
+
+            <!-- HIDDEN DOWNLOAD DIV -->
+            <div id="div-downloads">
+              <iframe name="iframe-download-post" id="iframe-download-post"></iframe>
+            </div>
+
+            <!-- HIDDEN X3DOM DIV -->
+            <div id="x3dom-hidden" style="display:none">
+                <div id="x3dom-wrapper">
+                    <div id="progressbar"></div>
+                    <x3d id="x3d" showlog="false" showstat="false" showprogress="false">
+                        <scene id="x3dScene"></scene>
+                    </x3d>
+          
+                    <div id="x3domUI"></div>
+                </div>
+            </div>
+
+            <script id="rbv-empty-view-template" type="text/html">
+              <i class="sprite sprite-scatter"></i> Please select an Area of Interest (AoI) in one of the MapViewer!
+            </script>
+
+            <div id="preload">
+               <img src="{% static 'tamp_client/images/glyphicons.png' %}" width="1" height="1" alt="Preload image">
+            </div>
+
+            <div id="error-messages"></div>
+
+            <div id="pngdataurl"></div>
+
+            <div id="playercontrols">
+                <div class="btn-group" role="group">
+                  <button type="button" class="btn btn-default" id="step-back-button"><i class="fa fa-step-backward"></i></button>
+                  <button type="button" class="btn btn-default" id="play-button"><i class="fa fa-play"></i></button>
+                  <button type="button" class="btn btn-default" id="step-forward-button"><i class="fa fa-step-forward"></i></button>
+                </div>
+            </div>
+
+            <div id="pickingresults"></div>
+            <div id="timestamp"></div>
+
+            <div id="prototype" data-toggle="tooltip" title="If you have not been instructed on how to use the system please contact tamp@eox.at and we will gladly hold a presentation">PROTOTYPE</div>
+
+            <div style="position: absolute; top: 15px; right: 310px; z-index: 1030; color: white;" data-toggle="tooltip" title="Usefull for selecting long time series for triggering processing">
+                <label style="font-weight: normal">
+                    <input style="vertical-align: middle; position: relative; top: -3px;" id="stop_visualization" type="checkbox" name="checkbox" value="value"> Disable product load
+                </label>
+            </div>
+
+            <div id="loadingcontrols" style="pointer-events: none; text-align: center;"></div>
+
+            <div id="terrain_attribution">
+                <p style="float: right"><a href="javascript:;" onclick="toggle(terrain_attribution)">×</a></p>
+                <p>Terrain map data</p>
+                <ul>
+                    <li>OpenStreetMap © <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a></li>
+                    <li>NaturalEarth <a href="http://www.naturalearthdata.com/about/terms-of-use/" target="_blank">public domain</a></li>
+                    <li>EU-DEM © Produced using Copernicus data and information<br>funded by the European Union</li>
+                    <li>SRTM © <a href="http://nasa.gov" target="_blank">NASA</a></li>
+                    <li>GTOPO30</li>
+                    <li>CleanTOPO2 public domain</li>
+                    <li>GlobCover © <a href="http://esa.int" target="_blank">ESA</a></li>
+                </ul>
+                <p>Terrain map design © <a href="http://eox.at" target="_blank">EOX IT Services GmbH</a></p>
+            </div>
+
+            <script>
+                // Used to display/hide terrain attribution
+                function toggle(e) { e.style.display = (e.style.display == 'block' ? 'none' : 'block'); }
+            </script>
+
+            <script data-main="{% static 'tamp_client/scripts/init.js' %}" src="{% static 'tamp_client/bower_components/requirejs/require.js' %}"></script>
+            
+        {% else %}
+            <div style="font-size: 2em;color: white; margin-top: 20%; text-align: center;">
+                Please go to the <a href="http://vtpip.zamg.ac.at/">TAMP Portal</a> and log in to use this service.
+           </div>
+        {%endif%}
+
+    </body>
+</html>

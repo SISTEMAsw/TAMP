@@ -1,0 +1,150 @@
+.avatarFancy img{
+	width: 90px;
+	height: 90px;
+}
+
+.avatarFancy{
+	float:left;
+	/*margin-top: 13px;*/
+	width: 91px;
+	height: 94px;
+	margin-right: 12px;
+	border:2px solid white;
+	border-radius: 2px;
+	-webkit-box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	-moz-box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+}
+
+.fancyComments{
+    font-size: small;
+    border: 1px solid #EEEEEE;
+    padding-top: 20px;
+}
+
+.fancydown{
+    min-height: 95px;
+    font-size: small;
+    border: 1px solid #EEEEEE;
+}
+
+.fancyForm{
+	width: 500px;
+    margin-top: 5px;
+    padding-top: 15px;
+	padding-bottom: 15px;
+	padding-left: 15px;
+	border: 1px solid #118888;
+	border-radius: 5px;
+	-webkit-box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	-moz-box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	margin-bottom: 20px;
+}
+#id_name, #id_email, #id_url{
+    display: none;
+}
+
+.control-label, .help-block{
+    display: none;
+}
+#id_comment{
+    border: 0px solid black;
+    resize: none;
+    margin-top: -5px;
+}
+.form-actions{
+    margin-bottom: 20px;
+}
+
+.btnfancy{
+    width: 400px;
+    margin-left: 120px;
+    padding: 5px;
+    margin-top: 10px;
+    margin-bottom: 12px;
+}
+
+.btnfancy-reply{
+    width: 365px;
+    margin-left: 120px;
+    padding: 5px;
+    margin-top: 10px;
+    margin-bottom: 12px;
+}
+
+.btnfancy input, .btnfancy-reply input{
+    float: right;
+}
+
+#btndesign{
+    margin-bottom: 20px;
+}
+
+.bubble
+{
+    position: relative;
+    margin-left: 120px;
+    width: 410px;
+    height: 260px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: white;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    border: #118888 solid 1px;
+    -webkit-box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	-moz-box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+
+}
+
+.bubble-reply
+{
+    position: relative;
+    margin-left: 120px;
+    width: 365px;
+    height: 220px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: white;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    border: #118888 solid 1px;
+    -webkit-box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	-moz-box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+
+}
+
+.bubble:after, .bubble-reply:after
+{
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 8px 22px 8px 0;
+    border-color: transparent #FFFFFF;
+    display: block;
+    width: 0;
+    z-index: 1;
+    margin-top: -8px;
+    left: -22px;
+    top: 15%;
+}
+
+.bubble:before, .bubble-reply:before
+{
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 8px 22px 8px 0;
+    border-color: transparent #118888;
+    display: block;
+    width: 0;
+    z-index: 0;
+    margin-top: -8px;
+    left: -23px;
+    top: 15%;
+}

@@ -1,0 +1,28 @@
+{% extends "accounts/account_form.html" %}
+{% load i18n %}
+
+{% block extra_head %}
+{% load static %}
+<link rel="stylesheet" href="{% static "css/profile/signup.css" %}">
+{% endblock %}
+
+{% block main %}
+<div class="signupwrapper">
+{% if request.user.is_authenticated %}
+    <p>{% trans "You're already logged in. If you'd like to create a new account, you'll need to log out first." %}</p>
+{% else %}
+    {% if settings.ACCOUNTS_APPROVAL_REQUIRED %}
+    <div class="alert alert-warning" role="alert" id="warn">
+        <p><strong>Attention! </strong>{% trans "After signing up, your account will be reviewed for approval. You'll receive an email when your account is activated." %}</p>
+    </div>
+    <div class="signupform">
+        {{ block.super }}
+    </div>
+    {% elif settings.ACCOUNTS_VERIFICATION_REQUIRED %}
+    <div class="alert alert-warning" role="alert" id="warn2">
+        <p>{% trans "After signing up, you'll receive an email with a link you need to click, in order to activate your account." %}</p>
+    </div>
+    {% endif %}
+{% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,349 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}{% trans "TAMP - Data Ingestion Page" %}{% endblock %}
+{% block title %}{% trans "TAMP - Data Ingestion Page" %}{% endblock %}
+
+{% block extra_head %}
+{% load static %}
+<link rel="stylesheet" href="{% static "css/dataingestion/edit.css" %}">
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="{% static "js/data_ingestion_update.js" %}"></script>
+<script src="{% static "js/go_back.js" %}"></script>
+
+<style type="text/css">
+    @font-face { 
+    font-family: Glyphicons Halflings; 
+    src:url({% static 'fonts/glyphicons-halflings-regular.ttf' %}) format('truetype');
+    } 
+</style>
+
+{% endblock %}
+
+{% block main %}
+{% if collectionTable %}
+	<legend>
+		<h3>Update dataset</h3>
+	</legend>
+
+{% if user.is_authenticated %}
+<div class="collectionUpdate">
+	{% if error_message %}<p><strong>{{ error_message }}<p><strong>{% endif %}
+        
+    {% if form.errors %}
+    <p><font color="red">The following error occurred:</font></p>
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div>
+                <p>{{field.label}}: 
+                {{ error|escape }}</p>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% endif %}
+    
+    
+    <form id="data_form" action="{% url 'editData' collectionTable.id %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+	<div class="dataForms">
+                <div class="dataFormsfancy">
+                <legend><h3>Update: <i>{{ collectionTable.name }}</i></h3></legend>
+                <div class="dataFormInput">
+                    {% for field in form.visible_fields %}
+                    
+                   
+                    {% if field.label == "Collection name"%}
+                    <div class="dataInputForm-name">
+                        <div class="dataInputlabel">
+                            {{ field.label }}*
+                        </div>  
+
+                        <div class="dataInputfield">
+                            {{ field }}
+                        </div>
+                        <div class="dataInputError-name">
+                            {{ field.errors }}
+                        </div>
+                        <div class="help-block" id="data-help">
+                            <p>Collection name should be compliant to the <a href=" http://cfconventions.org/" target="_blank">cfconvention</a> nomenclature</p>
+                        </div>
+
+                    </div>
+
+                    {% elif field.label == "Collection source"%}
+                    <div class="dataInputForm">
+                        <div class="dataInputlabel">
+                            {{ field.label }}
+                        </div>  
+
+                        <div class="dataInputfield">
+                            {{ field }}
+                        </div>
+
+                        <div class="dataInputError">
+                            {{ field.errors }}
+                        </div>
+                    </div>
+
+                    {% elif field.label == "Max. longitude"%}
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panelfancy">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapse1">Geographic & Time Coverage</a>
+                                    </h4>
+                                    </div>
+                                </div>
+
+                                <div id="collapse1" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <legend><h4> Geographic coverage </h4></legend>
+                                        <div class="dataInputForm2">
+                                            <div class="dataInputlabel">
+                                                {{ field.label }}
+                                            </div>
+
+                                            <div class="dataInputfieldGeo">
+                                                {{ field }}
+                                            </div>
+                                        </div>
+
+                                        {% elif field.label == "Max. latitude"%}
+                                        <div class="dataInputForm2">
+                                            <div class="dataInputlabel">
+                                                {{ field.label }}
+                                            </div>
+
+                                            <div class="dataInputfieldGeo">
+                                                {{ field }}
+                                            </div>  
+                                        </div>
+
+                                        {% elif field.label == "Min. longitude"%}
+                                        <div class="dataInputForm2">
+                                            <div class="dataInputlabel">
+                                                {{ field.label }}
+                                            </div>
+
+                                            <div class="dataInputfieldGeo">
+                                                {{ field }}
+                                            </div>
+                                        </div>
+
+                                        {% elif field.label == "Min. latitude"%}
+                                        <div class="dataInputForm2">
+                                            <div class="dataInputlabel">
+                                                {{ field.label }}
+                                            </div> 
+
+                                            <div class="dataInputfieldGeo">
+                                                {{ field }}
+                                            </div>
+                                        </div>
+
+                                        {% elif field.label == "start date"%}
+                                        <legend><h4>Time coverage</h4></legend>
+                                    
+                                        <div class="dataInputForm2">
+                                            <div class="dataInputlabel">
+                                                {{ field.label }}
+                                            </div>
+
+                                            <div class="dZuzanna HaladovaataInputfield">
+                                                {{ field }}
+                                            </div>
+
+                                            <div class="dataInputError">
+                                                {{ field.errors }}
+                                            </div>
+                                        </div>
+           
+                                        {% elif field.label == "end date"%}
+                                        <div class="dataInputForm2">
+                                            <div class="dataInputlabel">
+                                                {{ field.label }}
+                                            </div>
+
+                                            <div class="dataInputfield">
+                                                {{ field }}
+                                            </div>
+
+                                            <div class="dataInputError">
+                                                {{ field.errors }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                  
+                        
+                    {% elif field.label == "Application field"%}
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panelfancy">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapse2">Dataset information</a>
+                                    </h4>
+                                    </div>
+                                </div>
+                                
+                                <div id="collapse2" class="panel-collapse collapse">
+                                    <div class="dataInputForm">
+                                        <div class="dataInputlabel">
+                                            {{ field.label }}*
+                                        </div>
+
+                                        <div class="dataInputfield">
+                                            {{ field }}
+                                        </div>
+
+                                        <div class="dataInputError">
+                                            {{ field.errors }}
+                                        </div>
+                                    </div>
+                      
+                                    {% elif field.label == "Group"%}
+                                    <div id="dataInputFormGroup">
+                                        <div class="dataInputlabel">
+                                            {{ field.label }}
+                                        </div>              
+                        
+                                        <div class="dataInputfield">
+                                            {{ field }}
+                                        </div>
+                            
+                                        <div class="dataInputError">
+                                            {{ field.errors }}
+                                        </div>
+                                    </div>
+                        
+                                    {% elif field.label == "Other information"%}
+                                    <div class="dataInputForm">
+                                        <div class="dataInputlabel">
+                                            {{ field.label }}
+                                        </div>              
+                        
+                                        <div class="dataInputfield">
+                                            {{ field }}
+                                        </div>
+                                
+                                        <div class="dataInputError">
+                                            {{ field.errors }}
+                                        </div>
+                                    </div>
+                                    
+                                    {% elif field.label == "Measurement unit"%}
+                                    <div class="dataInputForm">
+                                        <div class="dataInputlabel">
+                                            {{ field.label }}
+                                        </div>              
+                        
+                                        <div class="dataInputfield">
+                                            {{ field }}
+                                        </div>
+                                
+                                        <div class="dataInputError">
+                                            {{ field.errors }}
+                                        </div>
+                                    </div>
+
+                                    {% elif field.label == "Min. value"%}
+                                    <div class="dataInputForm">
+                                        <div class="dataInputlabel">
+                                            {{ field.label }}
+                                        </div>              
+                        
+                                        <div class="dataInputfield">
+                                            {{ field }}
+                                        </div>
+                                
+                                        <div class="dataInputError">
+                                            {{ field.errors }}
+                                        </div>
+                                    </div>
+                                    
+                                    {% elif field.label == "Max. value"%}
+                                    <div class="dataInputForm">
+                                        <div class="dataInputlabel">
+                                            {{ field.label }}
+                                        </div>              
+                        
+                                        <div class="dataInputfield">
+                                            {{ field }}
+                                        </div>
+                                
+                                        <div class="dataInputError">
+                                            {{ field.errors }}
+                                        </div>
+                                    </div>
+
+                                    {% elif field.label == "Access"%}
+                                    <div class="dataInputForm">
+                                        <div class="AccessLabel">
+                                            {{ field.label }}*
+                                        </div>              
+                        
+                                        <div class="AccessField">
+                                            {{ field }}
+                                        </div>
+                        
+                                        <div class="AccessErrors">
+                                            {{ field.errors }}
+                                        </div>
+                                    </div>
+
+                                    {% elif field.label == "IPR statement"%}
+                                    <div class="dataInputForm">
+                                        <div class="dataInputlabel">
+                                            {{ field.label }}*
+                                        </div>              
+                        
+                                        <div class="dataInputfield">
+                                            {{ field }}
+                                        </div>
+
+                                        <div class="dataInputError">
+                                            {{ field.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    {% elif field.label == "Use case"%}
+                       <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panelfancy">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapse3">Use case*</a>
+                                    </h4>
+                                </div>
+                                </div>
+
+                                <div id="collapse3" class="panel-collapse collapse">
+                                    <div class="dataInputForm">
+                                        <!--<div class="dataInputfield">-->
+                                            {{ field }}
+                                       <!-- </div>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                </div>
+        <div class="dataEditbutton">
+            <input class="btn btn-primary" onclick="goBack()" type="submit" name="submit" value="Go back" />       
+            <input class="btn btn-primary" type="submit" name="submit" value="Update collection" />
+        </div>
+        </div>
+        </form>
+</div>
+{% endif %}
+{% endif %}
+{% endblock %}

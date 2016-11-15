@@ -1,0 +1,188 @@
+{% extends "tutorial/tutorial_base.html" %}
+{% load i18n %}
+
+{% block meta_title %}{% trans "TAMP - Welcome" %}{% endblock %}
+{% block title %}{% trans "TAMP - Welcome" %}{% endblock %}
+
+{% block extra_head %}
+{% load static %}
+<link rel="stylesheet" href="{% static "css/blog.css" %}">
+<link rel="stylesheet" href="{% static "css/tutorial.css" %}">
+<link rel="stylesheet" href="{% static "css/introjs.css" %}">
+<link rel="stylesheet" href="{% static "css/base.css" %}">
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="{% static "js/intro.js" %}"></script>
+
+
+
+
+{% endblock %}
+
+{% block main %}
+<!--************************************************************************************************************************************************************************** -->
+{% if user.is_authenticated %}
+<div class="eventWrapper">
+	<div class="sideWrapper">
+		<!-- RSS -->
+		<div class="sidewindowRSS" data-step="2" data-intro="RSS Feeds from ESA and NASA" data-position="left">
+			<!-- start feedwind code -->
+			<script type="text/javascript">
+				document.write('\x3Cscript type="text/javascript" src="' + ('https:' == document.location.protocol ? 'https://' : 'http://') + 'feed.mikle.com/js/rssmikle.js">\x3C/script>');
+			</script>
+			<script type="text/javascript">
+				(function() {var params = {
+					rssmikle_url: "http://www.esa.int/rssfeed/Our_Activities/Observing_the_Earth|http://www.nasa.gov/rss/dyn/earth.rss",
+					rssmikle_frame_width: "298",
+					rssmikle_frame_height: "198",
+					frame_height_by_article: "0",
+					rssmikle_target: "_blank",
+					rssmikle_font: "Arial, Helvetica, sans-serif",
+					rssmikle_font_size: "12",
+					rssmikle_border: "off",
+					responsive: "off",
+					rssmikle_css_url: "",
+					text_align: "left",
+					text_align2: "left",
+					corner: "on",
+					scrollbar: "on",
+					autoscroll: "on",
+					scrolldirection: "up",
+					scrollstep: "3",
+					mcspeed: "20",
+					sort: "Off",
+					rssmikle_title: "on",
+					rssmikle_title_sentence: "Earth News",
+					rssmikle_title_link: "",
+					rssmikle_title_bgcolor: "#AADDDD",
+					rssmikle_title_color: "#455680",
+					rssmikle_title_bgimage: "",
+					rssmikle_item_bgcolor: "#FFFFFF",
+					rssmikle_item_bgimage: "",
+					rssmikle_item_title_length: "55",
+					rssmikle_item_title_color: "#118888",
+					rssmikle_item_border_bottom: "on",
+					rssmikle_item_description: "on",
+					item_link: "off",
+					rssmikle_item_description_length: "150",
+					rssmikle_item_description_color: "#455680",
+					rssmikle_item_date: "gl1",
+					rssmikle_timezone: "Etc/GMT",
+					datetime_format: "%b %e, %Y %l:%M %p",
+					item_description_style: "text+tn",
+					item_thumbnail: "full",
+					item_thumbnail_selection: "auto",
+					article_num: "15",
+					rssmikle_item_podcast: "off",
+					keyword_inc: "",
+					keyword_exc: ""};
+					feedwind_show_widget_iframe(params);})();
+			</script>
+			</div>
+			<div style="font-size:10px; text-align:center; width:300px;"><a href="http://feed.mikle.com/" target="_blank" style="color:#CCCCCC;">RSS Feed Widget</a>
+				<!--Please display the above link in your web page according to Terms of Service.-->
+			</div>
+			<!-- end feedwind code -->
+
+		<!-- recent Activities -->
+		<div class="sidewindow" id="recentAct" data-step="3" data-intro="Here you can find your recent activities" data-position="left">
+			<div class="heading">
+				My recent activities
+			</div>
+			<div class="inner">
+				{% load data_ingestion_tags %}
+				<!-- template tag, number of shown datasets, username -->
+				{% recent_activities 2 user.username as act_list %}
+				{% if act_list %}
+    			<ul>
+    			{% for activity in act_list %}
+            		<li><a href="{% url 'detail' activity.id %}">{{ activity.name }}</a></li>
+    			{% endfor %}
+   				 </ul>
+			{% else %}
+   			 <p>No activities are available.</p>
+			{% endif %}
+			</div>
+		</div>
+		<!-- datasets -->
+		<div class="sidewindow" id="datasets" data-step="4" data-intro="The latest datasets you have uploaded" data-position="left">
+			<div class="heading">
+				My datasets
+			</div>
+			<div class="inner">
+				<!-- display the latest datasets -->
+				{% load data_ingestion_tags %}
+				<!-- template tag, number of shown datasets, username -->
+				{% data_recent_upload 3 user.username as data_list %}
+				{% if data_list %}
+    			<ul>
+    			{% for collection in data_list %}
+            		<li><a href="{% url 'detail' collection.id %}">{{ collection.name }}</a></li>
+    			{% endfor %}
+   				 </ul>
+			{% else %}
+   			 <p>No collections are available.</p>
+			{% endif %}
+
+			</div>
+		</div>
+	</div>
+	<!-- Welcome -->
+	<div class ="welcome">
+		<legend>
+			<h3> Welcome {{ user.username }}!</h3>
+		</legend>
+	</div>
+	<!-- New Entry -->
+	<div class="newEntry">
+		<a id="startButton" class="btn btn-large btn-success" href="javascript:void(0);">New? you want to take a tour?</a>
+
+		<h3 data-step="1" data-intro="Here you can add a new article."><img src="{% static "img/news/add.png" %}" alt="" id ="start"><a href="blogFront/add/" > Add a new Entry</a></h3>
+	</div>
+</div>
+<!-- News-->
+<div class="eventWindow" data-step="5" data-intro="Here you can find the latest four articles" data-position="left">
+	<legend>
+		<h3>Recent Articles</h3>
+	</legend>
+	<div class ="recentPostsWrapper" >
+		{% load blog_tags keyword_tags i18n %}
+		{% blog_recent_posts 4 as recent_posts %}
+		{% if recent_posts %}
+		{% for recent_post in recent_posts %}
+		<!-- Div for every post -->
+		<div class="recentPost">
+			<h3><img src="{% static "img/news/arrow.png" %}" alt=""><a href="{{ recent_post.get_absolute_url }}">{{ recent_post.title }}</a></h3>
+			<div class="recentPostDetails">
+				{% trans "Posted by" %}:
+				{% if recent_post.user.get_full_name %}
+				{{ recent_post.user.get_full_name }},
+				{% else %}
+				{{ recent_post.user.username }}
+				{% endif %}
+				{{ recent_post.publish_date|timesince }} {% trans "ago" %}
+			</div>
+			<div class="recentPostsummary">
+				{{ recent_post.description_from_content|safe }}
+				<a href="{{ recent_post.get_absolute_url }}">{% trans "read more&hellip;" %}</a>
+				<hr>
+			</div>
+
+		</div>
+		{% endfor %}
+		{% endif %}<!-- /Recent Posts -->
+	</div>
+</div>
+<script type="text/javascript">
+    document.getElementById('startButton').onclick = function() {
+        introJs().start()};
+</script>
+
+</div>
+
+<!--************************************************************************************************************************************************************************** -->
+{% else %}
+no entry!
+{% endif %}
+
+{% endblock %}
+

@@ -1,0 +1,92 @@
+.collectionTableFancy
+{
+    width: 910px;
+	margin: 0 auto;
+	margin-top:20px;
+	padding-bottom: 15px;
+	padding-left: 15px;
+	border: 1px solid #118888;
+	border-radius: 5px;
+	-webkit-box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	-moz-box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	margin-bottom: 10px;
+	text-align: left;
+}
+
+.alert
+{
+	width: 870px;
+}
+
+.dataTitle
+{
+	font-weight: bold;
+	width: 200px;
+	float:left;
+	margin-bottom: 10px;
+	height: 25px;
+}
+
+.dataDetails
+{
+	width: 650px;
+	margin-left: 202px;
+	margin-bottom: 10px;
+	height: 25px;
+}
+.detailCollection
+{
+	width: 680px;
+	margin-left: 202px;
+
+	margin-bottom: 10px;
+
+}
+
+.divDataTitle
+{
+	width: 75px;
+	height: 26px;
+	float: left;}
+
+.divDataDetail
+{
+	width: 200px;
+	float: none;
+	height: 26px;
+}
+
+.usecasedetail
+{
+	width: 680px;
+	float: none;
+	height: 26px;
+}
+
+.dataBtnDetail
+{
+	color: white;
+	width: 360px;
+	margin: 0 auto;
+	padding-left: 10px;
+}
+
+#updateBtn a{
+	color: white;
+	text-decoration:none;
+}
+
+#updateBtn a:hover{
+	color: white;
+	text-decoration:none;
+}
+#updateBtn a:visited{
+	color: white;
+	text-decoration:none;
+}
+
+#updateBtn a:active {
+	color: white;
+	text-decoration:none;
+}

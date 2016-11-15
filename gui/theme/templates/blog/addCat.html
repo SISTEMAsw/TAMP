@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}{% trans "TAMP - Data Ingestion Page" %}{% endblock %}
+{% block title %}{% trans "TAMP - Data Ingestion Page" %}{% endblock %}
+
+{% block extra_head %}
+{% load static %}
+<link rel="stylesheet" href="{% static "css/blog/newEntry.css" %}">
+{% endblock %}
+
+{% block main %}
+<legend><h3>Add a new category</h3></legend>
+
+<div class ="blogSubmit">
+<form id="data_form" action="{% url 'add' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+{% for field in form.visible_fields %}
+  <div class="entrydiv">
+   
+    {{ field.label }}:{{ field }}
+    </br>
+    {{ field.errors }}
+   
+{% endfor %}
+<div class="databutton">       
+        <input class="btn btn-primary" type="submit" name="submit" value="Submit" />
+</div>
+</form>
+</div>
+{% endblock %}

@@ -1,0 +1,1 @@
+(function(){"use strict";var a=this;a.define(["backbone","communicator"],function(a,b){var c=a.Model.extend({visualizationLibs:[],center:[],zoom:0,moon:!0,sun:!0,skyBox:!0,backgroundColor:"#000"});return{MapModel:c}})}).call(this);

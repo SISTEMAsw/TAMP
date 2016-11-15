@@ -1,0 +1,1 @@
+define(["backbone.marionette","app","./RectangularBoxViewController"],function(a,b,c,d){"use strict";var e=function(a){this.rbv_controller=a};return _.extend(e.prototype,{show:function(){this.rbv_controller.show()}}),e});

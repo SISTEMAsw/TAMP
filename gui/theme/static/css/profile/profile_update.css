@@ -1,0 +1,103 @@
+.resetForm .form-actions{
+	float: left;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.panel-group{
+	margin-top: 5px;
+	width: 788px;
+	border: 1px solid #CCCCCC;
+	border-radius: 5px;
+}
+
+.panelfancy{
+	background-color: #EEEEEE;
+	background: -webkit-linear-gradient(#EEEEEE, #DDDDDD); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#EEEEEE, #DDDDDD); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#EEEEEE, #DDDDDD); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#EEEEEE, #DDDDDD); /* Standard syntax */
+}
+	
+#collapse1{
+	padding-top: 5px;
+	padding-left: 15px;
+	background-color: #EEEEEE;
+}
+
+.panel-group{
+	background-color: #EEEEEE;
+}
+
+.updateProfilebutton a{
+	color: white;
+	font-style: none;
+}
+
+.updateProfilebutton a:hover{
+	color: white;
+	font-style: none;
+}
+
+.updateProfilebutton a:visited{
+	color: white;
+	font-style: none;
+}
+
+.updateProfilebutton a:active{
+	color: white;
+	font-style: none;
+}
+
+.updateWrapper{
+	width: 830px;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.updateDetails{
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-top:15px;
+	padding-bottom: 15px;
+	border: 1px solid #118888;
+	border-radius: 5px;
+	-webkit-box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	-moz-box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	margin-bottom: 10px;
+	text-align: left;
+}
+.upadtefieldWrapper{
+	width: 830px;
+	margin-bottom: 6px;
+}
+
+.updateLabel{
+	width: 180px;
+	font-weight: bold;
+	float: left;
+}
+
+.updateLabel2{
+	width: 165px;
+	font-weight: bold;
+	float: left;
+}
+
+.updateError{
+	width: 400px;
+	overflow: hidden;
+}
+
+.help-block{
+	margin-left:180px;
+}
+
+#help2{
+	margin-left:165px;
+}
+li{
+	list-style-type: none;
+	color: red;
+} 

@@ -1,0 +1,37 @@
+#tamplogo{
+    height: 25px;
+}
+
+#wiki-footer img{
+    display: none;
+}
+
+#wiki-footer p{
+    font-size: x-small;
+}
+
+.navbar-right .dropdown .dropdown-menu{
+    display: none;
+
+}
+
+.navbar-right .caret{
+    display: none;
+}
+
+.navbar-right span{
+    display: none;
+}
+
+.navbar-right .dropdown-toggle{
+           pointer-events: none;
+   cursor: default;
+}
+
+#article-breadcrumbs .btn-group{
+    display: none;
+}
+
+#article-menu .pull-right{
+    display: none;
+}

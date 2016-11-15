@@ -1,0 +1,90 @@
+#accounts-login- {
+	display: block;
+}
+
+#accounts-logout {
+	display: none;
+}
+
+.loginWrapper{
+	margin: 0 auto;
+	width:800px;
+}
+
+#login{
+	text-align: center;
+}
+#login legend{
+	text-align: left;
+}
+
+#login,  x:-moz-any-link, x:default 
+{
+	margin-left: 40px;
+	text-align: left;	
+}
+
+#login legend,  x:-moz-any-link, x:default
+{
+	text-align: left;
+	margin-left: -40px;
+	width: 280px;
+}
+
+#login .form-actions input,  x:-moz-any-link, x:default
+{
+	font-size: small;
+	margin-right: 255px; 
+}
+
+
+.form-actions input{
+	font-size: small;
+	margin-right: 100px;
+}
+
+.loginText{
+	padding-top: 25px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.loginWrapper .control-label{
+	width: 400px;
+}
+
+#users- {
+	display: none;
+}
+
+#-dave- {
+	display: none;
+}
+
+
+label{
+	width: 208px;
+}
+
+.control-label{
+	vertical-align: top;
+}
+
+.fancyLogin{
+	margin: 0 auto;
+	border: 1px solid #118888;
+	border-radius: 5px;
+	width: 300px;
+	padding-left:10px;
+	padding-right:10px;
+	padding-bottom: 10px;
+	-webkit-box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	-moz-box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+}
+
+#login .form-errors{
+	width: 280px;
+	margin-top: 10px;
+	
+}

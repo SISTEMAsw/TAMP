@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}{% trans "TAMP - Data Ingestion Page" %}{% endblock %}
+{% block title %}{% trans "TAMP - Data Ingestion Page" %}{% endblock %}
+
+{% block extra_head %}
+{% load static %}
+<link rel="stylesheet" href="{% static "css/dataingestion/detail.css" %}">
+{% endblock %}
+
+{% block main %}
+{% if user.is_authenticated %}
+{% if collectionTable %}
+<div class="collectionTableFancy">
+	<div class="heading">
+		<legend><h3>{{ collectionTable.name }}</h3></legend>
+	</div>
+
+	{% if collectionTable.status == "Download_Error" or collectionTable.status == "Processing_Error" or collectionTable.status == "Sync_Error" or collectionTable.status == "mwcs_Error" or collectionTable.status == "Error_Processor_not_found" %}
+	<div class="alert alert-danger" role="alert">
+	<strong>Warning! </strong>{{ collectionTable.status }}!
+	</div>
+	{% elif collectionTable.coverageID == "ERROR" %}
+	<div class="alert alert-danger" role="alert">
+	<strong>Warning! </strong>CoverageID Error!
+	</div>
+	{% elif collectionTable.status == "uploading" or collectionTable.status == "processing" or collectionTable.status == "processed" or collectionTable.status == "reprocess" or collectionTable.status == "mwcs_processed"%}
+	<div class="alert alert-info" role="alert">
+	The collection is currently being processed. This will take some minutes.
+	</div>
+	{% endif %}
+
+<div class = "inner">
+
+    <div class="detail_box">
+		<div class= "dataTitle"><b>Source: </b></div>
+		<div class="dataDetails">
+		{% if collectionTable.source %}
+			<p>{{ collectionTable.source }}</p>
+		{% else %}
+			<p>None</p>
+		{% endif %}
+		</div>
+    </div>
+	
+
+    <div class= "dataTitle"><b>Geographic coverage: </b></div>
+	<div class="detailCollection">
+		<div class="divDataTitle">Max Lat:</div>
+			<div class="divDataDetail">			
+			{% if collectionTable.max_lat %}
+				<p>{{ collectionTable.max_lat }}</p>
+			{% else %}
+				<p>None</p>
+			{% endif %}
+	</div>
+    	<div class="divDataTitle">Max Lon:</div>
+			<div class="divDataDetail">
+			{% if collectionTable.max_lon %}
+				<p>{{ collectionTable.max_lon }}</p>
+			{% else %}
+				<p>None</p>
+			{% endif %}
+	</div>
+   		<div class="divDataTitle">Min Lat:</div>
+		   	<div class="divDataDetail">
+			{% if collectionTable.min_lat %}
+				<p>{{ collectionTable.min_lat }}</p>
+			{% else %}
+				<p>None</p>
+			{% endif %}
+	</div>
+    	<div class="divDataTitle">Min Lon:</div>
+			<div class="divDataDetail">
+			{% if collectionTable.min_lon %}
+				<p>{{ collectionTable.min_lon }}</p>
+			{% else %}
+				<p>None</p>
+			{% endif %}
+	</div>
+
+	</div>
+    <div class= "dataTitle"><b>Time coverage: </b></div>
+	<div class="detailCollection">
+			<div class="divDataTitle">Start:</div>
+				<div class="divDataDetail">
+					{% if collectionTable.start_date %}
+						<p>{{ collectionTable.start_date }}</p>
+					{% else %}
+						<p>None</p>
+					{% endif %}
+				</div>
+    		<div class="divDataTitle">End:</div>
+				<div class="divDataDetail">
+					{% if collectionTable.end_date %}
+						<p>{{ collectionTable.end_date }}</p>
+					{% else %}
+						<p>None</p>
+					{% endif %}
+				</div>
+	</div>
+
+	<div class= "dataTitle"><b>Use case(s):</b></div>
+	<div class="detailCollection">
+		{% if use_case %}
+			{% for usecase in use_case %}
+			<div class="usecasedetail">
+				<p>{{ usecase }}</p></br>
+			</div>
+			{% endfor %}
+		{% else %}
+		<div class="usecasedetail">
+			<p> no use case selected </p>
+		</div>
+		{% endif %}
+	</div>
+
+	
+    <div class= "dataTitle"><b>Application: </b></div>
+		<div class="dataDetails">
+			{% if collectionTable.application == "CL" %}
+				<p>Cloud</p>
+			{% elif collectionTable.application == "PR" %}
+				<p>Precipitation </p>
+
+			{% elif collectionTable.application == "OZ" %}
+				<p>Ozone</p>
+
+			{% elif collectionTable.application == "AE" %}
+				<p>Aerosol</p>
+
+			{% elif collectionTable.application == "NO" %}
+				<p>NO2</p>
+
+			{% elif collectionTable.application == "SO" %}
+				<p>SO2</p>
+
+			{% elif collectionTable.application == "CH" %}
+				<p>CH4</p>
+
+			{% elif collectionTable.application == "OG" %}
+				<p>other gases</p>
+			{% else %}
+				<p>None</p>
+			{% endif %}
+		</div>
+		
+	{% if collectionTable.measurement_unit %}
+	<div class= "dataTitle"><b>Measurement unit:</b></div>
+	<div class="dataDetails"><p> {{ collectionTable.measurement_unit }} </p></div>
+	{% endif %}
+    
+	{% if collectionTable.group%}
+	<div class= "dataTitle"><b>Group:</b></div>
+		<div class="dataDetails">
+			{% if collectionTable.group == "G1" %}
+				<p> Group 1 </p>
+			{% elif collectionTable.group == "G2" %}
+				<p> Group 2  </p>
+			{% elif collectionTable.group == "G3" %}
+				<p> Group 3  </p>
+			{% else %}
+				<p> no group selected </p>
+			{% endif %}
+		</div>
+	{% endif %}
+    <div class= "dataTitle"><b>IPR statement:</b></div>
+	<div class="dataDetails"><p> 
+			{% if collectionTable.ipr == "I01" %}
+				<p>Creative commons</p>
+			{% elif collectionTable.ipr == "I02" %}
+				<p>Academic Free License 3.0 (AFL 3.0) Adaptive Public License </p>
+			{% elif collectionTable.ipr == "I03" %}
+				<p>Attribution Assurance Licenses</p>
+			{% elif collectionTable.ipr == "I04" %}
+				<p>FreeBSD License</p>
+			{% elif collectionTable.ipr == "I05" %}
+				<p>Common Development and Distribution License</p>
+			{% elif collectionTable.ipr == "I06" %}
+				<p>Common Public Attribution License 1.0 (CPAL)</p>
+			{% elif collectionTable.ipr == "I07" %}
+				<p>Computer Associates Trusted Open Source License 1.1 Creative Commons Attribution</p>
+			{% elif collectionTable.ipr == "I08" %}
+				<p>EU DataGrid Software License</p>				
+			{% elif collectionTable.ipr == "I09" %}
+				<p>Educational Community License. Version 2.0</p>
+			{% elif collectionTable.ipr == "I10" %}
+				<p>European Union Public License. Version 1.1 (EUPL-1.1) Fair License</p>
+			{% elif collectionTable.ipr == "I11" %}
+				<p>GNU General Public License (GPL)</p>
+			{% elif collectionTable.ipr == "I12" %}
+				<p>Local Authority Copyright with data.gov.uk rights Lucent Public License (Plan9)</p>
+			{% elif collectionTable.ipr == "I13" %}
+				<p>MIT license</p>
+			{% else %}
+  				<p> no IPR statement selected </p>
+			{% endif %} </p></div>	
+	
+	
+	<div class= "dataTitle"><b>Other information:</b></div>
+	<div class="dataDetails">
+		{% if collectionTable.other_info %}
+			<p>{{ collectionTable.other_info }}</p>
+		{% else %}
+			<p>None</p>
+		{% endif %}
+	</div>
+    <div class= "dataTitle"><b>Uploaded by: </b></div>
+	<div class="dataDetails"><p>{{ collectionTable.uploaded_by }} </p></div>
+
+	{% if collectionTable.status == "Available" %}
+	<div class= "dataTitle"><b>Status: </b></div>
+	<div class="dataDetails"><p>{{ collectionTable.status }} </p></div>
+	{% endif %}
+	
+
+</div>
+</div>
+<div class ="dataBtnDetail">
+	<div id="updateBtn">
+
+		{% if status %}
+		<a class="btn btn-primary" href="{% url 'indexData' %}">{% trans "Go back" %}</a>
+		<a class="btn btn-primary" href="{% url 'editData' collectionTable.id %}">{% trans "Edit collection" %}</a>
+		<a class="btn btn-danger"  alt="Delete entry" border="0" data-toggle="modal" data-target="#deleteModal">Delete collection</a>
+		{% else %}
+		<a class="btn btn-primary" href="{% url 'indexData' %}">{% trans "Go back" %}</a>
+		{% endif %}
+	</div>
+</div>
+
+<div id="deleteModal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Are you sure?</h4>
+            </div>
+			<div class="modal-body">
+ 				<p>Are you sure you want to delete the <strong>{{ collectionTable.name }}</strong> collection table? </p>
+            </div>
+            <div class="modal-footer">
+                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                 <a href="{% url 'deleteData' collectionTable.id %}" class="btn btn-danger" id="delButton">Delete</a>
+            </div>
+         </div>
+	</div>
+</div>               
+
+{% endif %}
+{% endif %}
+{% endblock %}

@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}{% trans "TAMP - Data Ingestion Page" %}{% endblock %}
+{% block title %}{% trans "TAMP - Data Ingestion Page" %}{% endblock %}
+
+{% block extra_head %}
+{% load static %}
+<link rel="stylesheet" href="{% static "css/blog/newEntry.css" %}">
+  <script src="{% static "mezzanine/tinymce/tinymce.min.js" %}"></script>
+  <script>
+    tinymce.init({ 
+      selector:'textarea',
+      width: 850,
+      height: 300,
+      plugins: 'link, image, table, code',
+      toolbar: 'undo redo | styleselect | bold italic | alignleft  aligncenter alignright, alignjustify |  cut copy paste | bullist numlist outdent indent | link image table code',
+      menubar: false 
+    });
+  </script>
+  <link rel="stylesheet" href="{% static "mezzanine/tinymce/tinymce.css" %}">
+{% endblock %}
+
+{% block main %}
+<div class="blogWrapper">
+    <legend><h3>Add a new entry</h3></legend>
+    {% if last_entry %}
+        <div class = "dataUploadyay">
+            Added new Entry: {{ last_entry }}
+        </div>
+    {% endif %}
+    <div class="sidewrapper">
+    <div class="sidewindow"> 
+        <div class="heading">
+            Your entrys
+        </div>
+        <div class="inner">
+            {% if latest_entrys %}
+            <ul>
+            {% for entry in latest_entrys %}
+                <li>
+                    <img src="{% static "img/news/trash.png" %}" class="delImg" alt="Delete entry" border="0" data-toggle="modal" data-target="#deleteModal{{ entry.id }}">
+                    <a href="{% url 'editEntry' entry.id %}"></a>
+                    <img src="{% static "img/news/edit.png" %}" alt="Edit entry" border="0">     
+                    <a href="../../blog/{{ entry.title.split|join:"-"|lower }}">{{ entry.title }}</a>
+                </li>
+                <div id="deleteModal{{ entry.id }}" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Are you sure?</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to delete the <strong>{{ entry.title }}</strong> entry? </p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <a href="{% url 'delete' entry.id %}" class="btn btn-danger">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>      
+            {% endfor %}
+            </ul>
+            {% else %}
+            <p>No entrys found</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+    <div class ="blogSubmit">
+        <form id="data_form" action="{% url 'add' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form.visible_fields %}
+            <div class="entrydiv">
+                {% if field.label == 'Content' %}
+                    {{ field.label }}:{{ field }}
+                    </br>
+                    {{ field.errors }}
+                {% else %}
+    
+                    {% if field.label == "Categories" %}
+                        <div id="entryCat">
+                            <div class="entrylabel">
+                                {{ field.label }}:
+                            </div>
+                            <div class="entryfields">
+                                {{ field }}
+                            </div>
+                            <div class="entryError">
+                                {{ field.errors }}
+                            </div>
+                           <div id="help1" class="help-block">                   
+                                <p>Select multiple entrys with CTRL</p>
+                           </div>
+                        </div>
+                    {% elif field.label == "Related posts" %}
+                        <div id="entryRel">
+                            <div class="entrylabel">
+                                {{ field.label }}:
+                            </div>
+                            <div class="entryfields">
+                                {{ field }}
+                            </div>
+                            <div class="entryError">
+                                {{ field.errors }}
+                            </div>
+                            <div id="help1" class="help-block">                   
+                                <p>Select multiple entrys with CTRL</p>
+                            </div>
+                       </div>
+                    {% elif field.label == "Allow comments" %}
+                        <div id="entryCommi">
+                            <div class="entrylabel">
+                                {{ field.label }}:
+                            </div>
+                            <div class="entryfields">
+                                {{ field }}
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="entrylabel">
+                            {{ field.label }}*:
+                        </div>
+                        <div class="entryfields">
+                            {{ field }}
+                        </div>
+                        <div class="entryError">
+                            {{ field.errors }}
+                        </div>
+                    {% endif %}
+            {% endif %}
+        </div>
+    {% endfor %}
+    <div class="databutton">
+        <a class="btn btn-primary" href="/blog">{% trans "Go back" %}</a>      
+        <input class="btn btn-primary" type="submit" name="submit" value="Submit" />
+    </div>
+</form>
+</div>
+</div>
+{% endblock %}

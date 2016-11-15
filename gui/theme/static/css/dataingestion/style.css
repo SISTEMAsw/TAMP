@@ -1,0 +1,255 @@
+.tooltip_templates { 
+	display: none;
+	}
+
+.collections {
+	width: 300px;
+	float: right;
+	border-radius: 5px;
+}
+
+.dataUploadyay{
+	width: 830px;
+	background-color: #AADDDD;
+	text-align: center;
+	margin-bottom: 20px;
+	float: left;
+	border: 1px solid #118888;
+	border-radius: 15px;
+	-webkit-box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	-moz-box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+}
+
+.databutton{
+	text-align: center;
+}
+
+#count{
+	margin-left: -85px;
+	color: #555555;
+	font-size: small;
+}
+
+.upload{
+	float:left;
+	width: 830px;
+	margin-bottom: 30px;
+}
+.dataForms{
+	text-align: center;
+	width: 830px;
+}
+.dataFormsfancy
+{
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-bottom: 15px;
+	border: 1px solid #118888;
+	border-radius: 5px;
+	-webkit-box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	-moz-box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	box-shadow: 0px 15px 9px -13px rgba(0,0,0,0.27);
+	margin-bottom: 10px;
+	text-align: left;
+}
+
+
+.upload li{
+	list-style-type: none;
+	color: red;
+} 
+.questionAccess{
+	width: 20px;
+	height: 20px;
+	margin-left: 300px;
+}
+
+.AccessField{
+	margin-top: -40px;
+}
+
+.dataInputForm{
+	min-height: 33px;
+}
+
+.dataInputlabelGroup{
+	width: 140px;
+	float: left;
+}
+.dataInputfieldGroup{
+	width: 600px;
+	margin-left: 140px;
+	min-height: 33px;
+	float: none;
+}
+.dataInputForm, .dataInputForm2, .dataInputOther, .dataInputForm-name, #dataInputFormGroup{
+	/*max-height: 50px;*/
+	margin-bottom: 3px;
+	width: 760px;
+}
+
+.dataInputForm2, .dataInputOther{
+	/*max-height: 50px;*/
+	height: 35px;
+	margin-left: 10px;
+}
+
+.dataInputForm, .dataInputForm-name, #dataInputFormGroup{
+	margin-left:15px;
+}
+
+.dataInputOther{
+	margin-top: 90px;
+}
+
+.dataInputlabel{
+	width: 140px;
+	float: left;
+	/*height: 32px;*/
+}
+
+.dataInputForm input, .dataInputOther input{
+	float:left;
+}
+.dataInputFormIPR
+{
+	margin-left:10px;
+	height: 50px;
+}
+
+.dataInputFormIPR select{
+	width: 550px;
+}
+.dataInputfieldIPR{
+	float:left;
+}
+
+.dataInputForm select, dataInputForm-name select, #dataInputFormGroup select{
+	float: left;
+	color: #455680;
+}
+
+.dataInputfieldGeo input{
+	width: 110px;
+}
+.question{
+	width: 200px;
+	height: 32px;
+	overflow: hidden;
+	color: red;
+}
+
+#id_access li{
+	color: #455680;
+	list-style-type: none;
+	font-weight: 300;
+	margin-left:140px;
+}
+
+#id_use_cases li{
+	color: #455680;
+	list-style-type: none;
+	
+}
+
+#id_use_cases li input, #id_access li input{
+	margin-right: 5px;	
+}
+
+
+.dataBtnDetail{
+	width: 335px;
+	margin: 0 auto; 
+}
+
+#updateBtn a{
+	color: white;
+	font-style: none;
+}
+
+#updateBtn hover{
+	color: white;
+	font-style: none;
+}
+
+.dataInputForm2 input{
+	float: left;
+}
+
+.dataInputForm2{
+	font-size: medium;
+}
+
+
+.dataInputError-name{
+	width: 200px;
+	height: 32px;
+	overflow: hidden;
+}
+
+.dataInputForm-name input{
+	float: left;
+}
+
+#data-help{
+	margin-left: 140px;
+}
+
+#data-help{
+	margin-left: 15px;
+}
+
+/*Panels*/
+
+.panel-group{
+	margin-top: 5px;
+	width: 788px;
+	border: 1px solid #CCCCCC;
+	border-radius: 5px;
+}
+
+.panelfancy{
+	background-color: #EEEEEE;
+	background: -webkit-linear-gradient(#EEEEEE, #DDDDDD); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#EEEEEE, #DDDDDD); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#EEEEEE, #DDDDDD); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#EEEEEE, #DDDDDD); /* Standard syntax */
+}
+	
+
+#collapse1, #collapse2, #collapse3{
+	padding-top: 5px;
+	background-color: #EEEEEE;
+}
+
+.panel-group{
+	background-color: #EEEEEE;
+}
+
+.panel-heading a:after {
+    font-family:'Glyphicons Halflings';
+    content:"\e114";
+    float: right;
+    color: grey;
+}
+.panel-heading a.collapsed:after {
+    content:"\e080";
+}
+
+span{
+	font-family: Courier New,Courier,Lucida Sans Typewriter,Lucida Typewriter,monospace;
+	font-size: small;
+}
+
+.wrap_me{
+	width: 300px;
+	float: right;
+	margin-top: -20px; 
+}
+.legend {
+	font-size: small;
+	width: 250px;
+	height: 250px;
+}
+
