@@ -1,0 +1,4 @@
+The GUI.PIP is a graphical user interface conceived to provide the front-end interface to the TAMP system. It allows retrieving project information and accessing the user-restricted areas.
+For the GUI.PIP, the Mezzanine-CMS was chosen. Mezzanine is written in Python and uses the django web framework. 
+To support a constant design Twitter Bootstrap was used, which contains HTML and CSS templates for commonly used interface elements.
+The template for the Public Information Portal was written in CSS and HTML. 
