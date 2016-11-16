@@ -1,2 +1,3 @@
 The TAMP project has the main scope of implementing a system that allows its users (mainly belonging to the science community) to access and exploit a virtual working environment in the field of atmospheric sciences with the aim to improve satellite atmospheric composition algorithms. 
+
 The main purpose of the TAMP environment is to allow performing validation and verification activities, comparing satellite / retrieved information with model data and ground-truth information. Moreover, data processing capabilities are provided to combine data, create new collections and verify their accuracy.
